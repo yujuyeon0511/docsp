@@ -117,14 +117,36 @@ response = model.chat(tokenizer, pixel_values, "Describe this chart.", dict(max_
 
 ## Evaluation
 
-ChartQA benchmark (relaxed accuracy):
+### ChartQA
+
 ```bash
 python benchmark_chartqa.py --model_path outputs/stage2
 ```
 
-### Results
+### VLMEvalKit (comprehensive)
+
+Uses [VLMEvalKit](https://github.com/open-compass/VLMEvalKit) for standard VLM benchmarks.
+Running DocSP-InternVL3.5-8B and InternVL2.5-8B baseline on the same 10 benchmarks:
+
+```bash
+# DocSP
+python run.py --model DocSP-InternVL3_5-8B \
+    --data MMVet GQA_TestDev_Balanced VizWiz ScienceQA_TEST TextVQA_VAL \
+          POPE MME MMBench_DEV_EN SEEDBench_IMG LLaVABench \
+    --work-dir ./outputs/docsp_benchmarks --verbose
+
+# Baseline (InternVL2.5-8B)
+python run.py --model InternVL2_5-8B \
+    --data MMVet GQA_TestDev_Balanced VizWiz ScienceQA_TEST TextVQA_VAL \
+          POPE MME MMBench_DEV_EN SEEDBench_IMG LLaVABench \
+    --work-dir ./outputs/baseline_benchmarks --verbose
+```
+
+## Results
 
 Trained on 10x A100-40GB (5 nodes), bilingual Korean/English data.
+
+### Training
 
 | | Stage 1 | Stage 2 |
 |--|---------|---------|
@@ -133,7 +155,7 @@ Trained on 10x A100-40GB (5 nodes), bilingual Korean/English data.
 | Final loss | 1.234 | 0.4025 |
 | Trainable | 72.3M (projectors) | 174.6M (projectors + LoRA) |
 
-**ChartQA** (Stage 2):
+### ChartQA (relaxed accuracy)
 
 | Split | Acc |
 |-------|-----|
@@ -142,6 +164,23 @@ Trained on 10x A100-40GB (5 nodes), bilingual Korean/English data.
 | **Avg** | **84.96%** |
 
 (InternVL2.5-8B baseline: ~83%)
+
+### General VLM Benchmarks
+
+> In progress — running on Kicloud23 (DocSP) and Kicloud24 (baseline).
+
+| Benchmark | DocSP-InternVL3.5-8B | InternVL2.5-8B |
+|-----------|---------------------|----------------|
+| MM-Vet | - | - |
+| GQA | - | - |
+| VizWiz | - | - |
+| SQA-IMG | - | - |
+| TextVQA | - | - |
+| POPE | - | - |
+| MME | - | - |
+| MMBench | - | - |
+| SEED-IMG | - | - |
+| LLaVA-Bench | - | - |
 
 ## Structure
 
@@ -153,6 +192,9 @@ model/
 sft_train.py                  # training script
 merge_lora.py                 # LoRA merge utility
 benchmark_chartqa.py          # ChartQA evaluation
+eval/
+  vlmeval_wrapper.py          # VLMEvalKit model wrapper
+  radar_chart.py              # benchmark radar chart visualization
 launch_multinode.sh           # Stage 1 multi-node launcher
 launch_stage2_multinode.sh    # Stage 2 multi-node launcher
 datasets_stage1.conf          # Stage 1 data config
