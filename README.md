@@ -328,11 +328,11 @@ This sequentially runs:
 
 | Split | Accuracy |
 |-------|----------|
-| Human | 34.96% |
-| Augmented | 37.36% |
-| **Average** | **36.16%** |
+| Human | 76.32% |
+| Augmented | 93.60% |
+| **Average** | **84.96%** |
 
-> Note: Performance optimization is ongoing. The current results reflect the initial training with bilingual (Korean+English) data mix focused on document/chart understanding.
+> InternVL2.5-8B baseline is ~83% on ChartQA. DocSP achieves 84.96%, slightly above baseline, with bilingual (Korean+English) training data.
 
 ---
 

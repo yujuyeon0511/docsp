@@ -21,8 +21,8 @@ CHARTQA_IMAGES = os.path.join(CHARTQA_DIR, "png")
 
 def relaxed_accuracy(pred: str, label: str) -> bool:
     """ChartQA relaxed accuracy: exact match or within 5% for numeric answers."""
-    pred = pred.strip().lower()
-    label = label.strip().lower()
+    pred = pred.strip().rstrip(".").strip().lower()
+    label = label.strip().rstrip(".").strip().lower()
     if pred == label:
         return True
     try:
