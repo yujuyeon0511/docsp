@@ -1,0 +1,25 @@
+# Training outputs (large model files)
+outputs/
+*.safetensors
+*.bin
+*.pt
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Environment
+.env
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude
+.claude/
+
+# Jupyter
+.ipynb_checkpoints/
